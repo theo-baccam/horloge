@@ -1,21 +1,27 @@
+# Le module time nous permet d'attendre x secondes.
 import time
 
 
+# Pour choisir entre modes d'affichage
 def format_choix():
-    choix = input("Voulez vous afficher en:\n1) Mode 24 Heures\n2) Mode 12 Heures\n")
+    choix = input(
+        "Voulez vous afficher en:\n" "1) Mode 24 Heures\n" "2) Mode 12 Heures\n"
+    )
     if choix == "1":
-        check = False
+        twelve = False
     elif choix == "2":
-        check = True
+        twelve = True
     else:
         raise ValueError("Choix Invalide")
-    return check
+    return twelve
 
 
 def afficher_heure(input_tuple):
+    # Pour extraire les valeurs du tuple
     hh = input_tuple[0]
     mm = input_tuple[1]
     ss = input_tuple[2]
+    # Si une des valeurs est invalide
     if hh < 0 or hh > 24:
         raise ValueError("Heure Invalide")
     if mm < 0 or mm > 60:
@@ -23,7 +29,9 @@ def afficher_heure(input_tuple):
     if ss < 0 or ss > 60:
         raise ValueError("Secondes Invalide")
 
+    # Boucle pour calculer l'heure
     while True:
+        # Pour calculer en mode 12 heures
         if hh > 13 and twelve == True:
             tw = hh - 12
             meridiem = "PM"
@@ -37,6 +45,8 @@ def afficher_heure(input_tuple):
             tw = 12
             meridiem = "AM"
 
+        # Modulo permet de faire un wrap-around entre une série de nombres.
+        # index = (index + longueur + valeur incrémentation) % longueur
         ss = (ss + 60 + 1) % 60
 
         if ss == 0:
@@ -52,6 +62,9 @@ def afficher_heure(input_tuple):
         else:
             current_time = f"{hh:02d}:{mm:02d}:{ss:02d}"
 
+        # Les différences entre return et yield:
+        # return marque la fin d'une fonction, avec yield ce n'est pas le cas
+        # return n'envoient qu'une valeur, yield génère une séquence de valeurs.
         yield current_time
 
 
@@ -78,6 +91,8 @@ def alarme(input_tuple, input_hour):
     else:
         heure_alarme = f"{hh:02d}:{mm:02d}:{ss:02d}"
 
+    # Ceci remplace l'affichage normal de l'horloge, lorsque l'alarme sonne
+    # on revient à la loop normale pour afficher.
     while True:
         current_time = next(input_hour)
         print(f"{current_time} | Alarme: {heure_alarme}", end="\r")
@@ -87,6 +102,8 @@ def alarme(input_tuple, input_hour):
         time.sleep(1)
 
 
+# Il ne faut pas oublier de spécifier que c'est un boolean
+# sinon c'est considérée comme un string.
 twelve = bool(format_choix())
 
 time_tuple = (12, 59, 52)
@@ -97,5 +114,6 @@ display_alarme = alarme(alarme_tuple, display_heure)
 
 
 while True:
+    # end="\r" revient au début de la ligne pour overwrite le dernier print.
     print(next(display_heure), end="\r")
     time.sleep(1)
