@@ -24,11 +24,17 @@ def afficher_heure(input_tuple):
         raise ValueError("Secondes Invalide")
 
     while True:
-        if hh >= 12 and twelve == True:
+        if hh > 13 and twelve == True:
             tw = hh - 12
             meridiem = "PM"
-        elif hh < 12 and twelve == True:
+        elif hh < 0 and twelve == True:
             tw = hh
+            meridiem = "AM"
+        elif hh == 12 and twelve == True:
+            tw = 12
+            meridiem = "PM"
+        elif hh == 0 and twelve == True:
+            tw = 12
             meridiem = "AM"
 
         ss = (ss + 60 + 1) % 60
@@ -43,7 +49,7 @@ def afficher_heure(input_tuple):
 
         if twelve == True:
             current_time = f"{tw:02d}:{mm:02d}:{ss:02d} {meridiem}"
-        else: 
+        else:
             current_time = f"{hh:02d}:{mm:02d}:{ss:02d}"
 
         yield current_time
@@ -67,18 +73,13 @@ def alarme(input_tuple, input_hour):
         tw = hh
         meridiem = "AM"
 
-    if mm == 0 and twelve == False:
-        hh = (hh + 24 + 1) % 24
-    elif mm == 0 and twelve == True:
-        tw = (tw + 12 + 1) % 12
-
-    current_time = next(input_hour)
     if twelve == True:
         heure_alarme = f"{tw:02d}:{mm:02d}:{ss:02d} {meridiem}"
     else:
         heure_alarme = f"{hh:02d}:{mm:02d}:{ss:02d}"
 
     while True:
+        current_time = next(input_hour)
         print(f"{current_time} | Alarme: {heure_alarme}", end="\r")
         if current_time == heure_alarme:
             print("\nL'alarme sonne")
@@ -87,13 +88,13 @@ def alarme(input_tuple, input_hour):
 
 
 twelve = bool(format_choix())
-print(twelve)
 
-time_tuple = (10, 59, 55)
+time_tuple = (12, 59, 52)
 display_heure = afficher_heure(time_tuple)
 
-alarme_tuple = (11, 27, 53)
+alarme_tuple = (00, 00, 00)
 display_alarme = alarme(alarme_tuple, display_heure)
+
 
 while True:
     print(next(display_heure), end="\r")
