@@ -96,11 +96,13 @@ def alarme(input_tuple, input_hour):
     # on revient à la loop normale pour afficher.
     while True:
         current_time = next(input_hour)
-        print(f"{current_time} | Alarme: {heure_alarme}", end="\r")
         if current_time == heure_alarme:
-            print("\nL'alarme sonne")
+            print(f"\n{current_time} | L'alarme a sonné", end="\r")
+            time.sleep(1)
             break
-        time.sleep(1)
+        if current_time != heure_alarme:
+            print(f"{current_time} | Alarme: {heure_alarme}", end="\r")
+            time.sleep(1)
 
 
 # Il ne faut pas oublier de spécifier que c'est un boolean
