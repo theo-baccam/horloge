@@ -52,7 +52,7 @@ def afficher_heure(input_tuple):
         if ss == 0:
             mm = (mm + 60 + 1) % 60
 
-        # mm == ss == 0 pour 24h sinon heure est compté toutes les secondes
+        # mm == ss == 0 pour 24h sinon heure est compté toutes les secondes
         if mm == ss == 0 and twelve == False:
             hh = (hh + 24 + 1) % 24
         elif mm == 0 and twelve == True:
