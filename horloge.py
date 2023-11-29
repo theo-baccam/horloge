@@ -97,7 +97,7 @@ def alarme(input_tuple, input_hour):
     while True:
         current_time = next(input_hour)
         if current_time == heure_alarme:
-            print(f"\n{current_time} | L'alarme a sonné", end="\r")
+            print(f"{current_time} | L'alarme a sonné", end="\r")
             time.sleep(1)
             break
         if current_time != heure_alarme:
