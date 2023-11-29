@@ -45,6 +45,16 @@ def afficher_heure(input_tuple):
             tw = 12
             meridiem = "AM"
 
+        if twelve == True:
+            current_time = f"{tw:02d}:{mm:02d}:{ss:02d} {meridiem}"
+        else:
+            current_time = f"{hh:02d}:{mm:02d}:{ss:02d}"
+
+        # Les différences entre return et yield:
+        # return marque la fin d'une fonction, avec yield ce n'est pas le cas
+        # return n'envoient qu'une valeur, yield génère une séquence de valeurs.
+        yield current_time
+
         # Modulo permet de faire un wrap-around entre une série de nombres.
         # index = (index + longueur + valeur incrémentation) % longueur
         ss = (ss + 60 + 1) % 60
@@ -57,16 +67,6 @@ def afficher_heure(input_tuple):
             hh = (hh + 24 + 1) % 24
         elif mm == 0 and twelve == True:
             tw = (tw + 12 + 1) % 12
-
-        if twelve == True:
-            current_time = f"{tw:02d}:{mm:02d}:{ss:02d} {meridiem}"
-        else:
-            current_time = f"{hh:02d}:{mm:02d}:{ss:02d}"
-
-        # Les différences entre return et yield:
-        # return marque la fin d'une fonction, avec yield ce n'est pas le cas
-        # return n'envoient qu'une valeur, yield génère une séquence de valeurs.
-        yield current_time
 
 
 def alarme(input_tuple, input_hour):
@@ -110,7 +110,7 @@ twelve = bool(format_choix())
 time_tuple = (12, 59, 52)
 display_heure = afficher_heure(time_tuple)
 
-alarme_tuple = (00, 00, 00)
+alarme_tuple = (13, 00, 00)
 display_alarme = alarme(alarme_tuple, display_heure)
 
 
