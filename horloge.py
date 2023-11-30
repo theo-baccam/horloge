@@ -32,7 +32,7 @@ def afficher_heure(input_tuple):
     # Boucle pour calculer l'heure
     while True:
         # Pour calculer en mode 12 heures
-        if hh > 13 and twelve == True:
+        if hh > 12 and twelve == True:
             tw = hh - 12
             meridiem = "PM"
         elif hh < 0 and twelve == True:
@@ -63,10 +63,8 @@ def afficher_heure(input_tuple):
             mm = (mm + 60 + 1) % 60
 
         # mm == ss == 0 pour 24h sinon heure est compté toutes les secondes
-        if mm == ss == 0 and twelve == False:
+        if mm == ss == 0:
             hh = (hh + 24 + 1) % 24
-        elif mm == 0 and twelve == True:
-            tw = (tw + 12 + 1) % 12
 
 
 def alarme(input_tuple, input_hour):
@@ -115,8 +113,7 @@ display_heure = afficher_heure(time_tuple)
 alarme_tuple = (13, 00, 00)
 display_alarme = alarme(alarme_tuple, display_heure)
 
-
 while True:
     # end="\r" revient au début de la ligne pour overwrite le dernier print.
-    print(next(display_heure), end="\r")
+    print(next(display_heure),end="\r")
     time.sleep(1)
